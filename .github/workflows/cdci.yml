@@ -2,16 +2,7 @@ name: Continuous Delivery and Continuous Integration
 on: push
 jobs:
 
-    deploy:
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v3
-            - name: install dependencies
-              run: npm ci
-            - name: run lint
-              run: npm run lint
-            - name: run tests
-              run: npm test
+
 
     build:
 
@@ -24,3 +15,14 @@ jobs:
               run: npm run build
             - name: output build
               run: echo "build_output=$(ls -la build/)" >> $GITHUB_ENV
+
+    deploy:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+            - name: install dependencies
+              run: npm ci
+            - name: run lint
+              run: npm run lint
+            - name: run tests
+              run: npm test
