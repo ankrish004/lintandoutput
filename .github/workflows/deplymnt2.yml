@@ -1,0 +1,27 @@
+name: deployment 2
+on: push
+jobs:
+    lint:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+            - name: install dependencies
+              run: npm ci
+            - name: run lint
+              run: npm run lint
+    build:
+
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+            - name: build
+              run: npm run build
+            - name: output build
+              run: echo "build_output=$(ls -la build/)" >> $GITHUB_ENV
+
+    deploy:
+      runs-on: ubuntu-latest
+      needs: build
+      steps:
+        - name: deployment
+          run: echo "deploying build output"
